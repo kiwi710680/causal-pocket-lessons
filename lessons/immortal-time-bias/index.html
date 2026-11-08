@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>不朽時間偏誤：時間零點放錯會怎樣？｜因果口袋講義</title>
+<link rel="stylesheet" href="../../shared/style.css">
+</head>
+<body data-code="CP-03" data-title="不朽時間偏誤：時間零點放錯會怎樣？">
+<main class="deck">
+
+  <section class="slide" data-type="cover">
+    <p class="kicker">CP-03 · 實務</p>
+    <h1>不朽時間偏誤：<br>時間零點放錯會怎樣？</h1>
+    <p class="hook">一個完全沒效的藥，可以只靠「分組方式」看起來降低四成死亡率。</p>
+  </section>
+
+  <section class="slide" data-type="concept">
+    <p class="kicker">情境</p>
+    <h2>一個常見的研究設計</h2>
+    <ul>
+      <li>資料：心肌梗塞病人，從<b>出院那天</b>開始追蹤 24 個月。</li>
+      <li>分組：追蹤期間「<mark>曾經</mark>開始用藥」的算用藥組；「從沒用過」的算未用藥組。</li>
+      <li>問題：用藥組的人不是出院當天就開始用藥，很多人是出院幾個月後才開始。</li>
+    </ul>
+    <div class="callout note"><b>補充</b>聽起來很合理，對吧？問題藏在「從出院到開始用藥」這段時間。</div>
+  </section>
+
+  <section class="slide" data-type="figure">
+    <p class="kicker">圖解</p>
+    <h2>不朽時間長什麼樣子</h2>
+    <svg viewBox="0 0 1110 360" role="img" aria-label="三位病人的追蹤時間軸">
+      <!-- x = 160 + 37.5 * month -->
+      <text x="0" y="86" font-size="20" font-weight="700">病人甲</text>
+      <line x1="160" y1="80" x2="385" y2="80" class="edge sm dashed" stroke-width="6"/>
+      <line x1="385" y1="80" x2="1060" y2="80" class="sa" stroke-width="6"/>
+      <circle cx="385" cy="80" r="8" class="fa"/>
+      <text x="272" y="62" font-size="16" text-anchor="middle" class="fm">不朽時間</text>
+      <text x="395" y="62" font-size="16" class="fa">第 6 個月開始用藥</text>
+      <text x="1060" y="112" font-size="16" text-anchor="end">→ 用藥組（存活）</text>
+
+      <text x="0" y="176" font-size="20" font-weight="700">病人乙</text>
+      <line x1="160" y1="170" x2="272" y2="170" class="si" stroke-width="6"/>
+      <line x1="272" y1="170" x2="385" y2="170" class="sr dashed" stroke-width="3"/>
+      <path d="M262 160 L282 180 M282 160 L262 180" class="si" stroke-width="3"/>
+      <text x="300" y="152" font-size="16" class="fm">原訂第 6 個月用藥，第 3 個月過世</text>
+      <text x="1060" y="202" font-size="16" text-anchor="end">→ 被算進未用藥組</text>
+
+      <text x="0" y="266" font-size="20" font-weight="700">病人丙</text>
+      <line x1="160" y1="260" x2="722" y2="260" class="si" stroke-width="6"/>
+      <path d="M712 250 L732 270 M732 250 L712 270" class="si" stroke-width="3"/>
+      <text x="1060" y="292" font-size="16" text-anchor="end">→ 未用藥組（第 15 個月過世）</text>
+
+      <line x1="160" y1="322" x2="1060" y2="322" class="sm" stroke-width="1.5"/>
+      <g font-size="15" text-anchor="middle" class="fm">
+        <text x="160" y="348" class="fm">0 出院</text><text x="385" y="348" class="fm">6</text>
+        <text x="610" y="348" class="fm">12</text><text x="835" y="348" class="fm">18</text><text x="1060" y="348" class="fm">24 個月</text>
+      </g>
+    </svg>
+    <p>病人甲在灰色那段「不可能死」：要是死了，就會像病人乙一樣被分到另一組。</p>
+  </section>
+
+  <section class="slide" data-type="cards">
+    <p class="kicker">要點</p>
+    <h2>兩個錯誤，同一個方向</h2>
+    <div class="card-row">
+      <div class="card a"><span class="tag">01 · 分母</span><h3>人時算錯組</h3><p>用藥前那幾個月被算進用藥組的人時，但他其實還沒用藥。用藥組分母變大，死亡率變低。</p></div>
+      <div class="card y"><span class="tag">02 · 分子</span><h3>事件算錯組</h3><p>等不到用藥就過世的人，被算進未用藥組。未用藥組分子變大，死亡率變高。</p></div>
+    </div>
+    <p style="margin-top:32px">兩個錯誤都讓藥看起來比實際<mark>更有保護力</mark>。</p>
+  </section>
+
+  <section class="slide" data-type="lab">
+    <p class="kicker">互動 · 這是簡化的示意模型</p>
+    <h2>看偏誤怎麼長出來</h2>
+    <p class="guess">如果藥完全沒效，延後開始用藥的時間 d 越長，天真分析的率比會怎麼變？</p>
+    <div class="two-col grow">
+      <div class="lab-panel">
+        <label for="delay">從出院到開始用藥：<span id="delay-out" class="mono a">6</span> 個月</label>
+        <input type="range" id="delay" min="0" max="12" step="1" value="6">
+        <p class="small" style="margin-top:14px">假設：每人每月死亡風險固定 0.02（<b>藥完全沒效</b>）；一半的人打算第 d 個月開始用藥，活到那時才真的開始；追蹤 24 個月。數字是期望值。</p>
+        <table class="table" style="font-size:16px">
+          <thead><tr><th>每千人</th><th>事件</th><th>人時（月）</th><th>率／千人月</th></tr></thead>
+          <tbody id="it-tab"></tbody>
+        </table>
+      </div>
+      <div>
+        <svg viewBox="0 0 460 300" role="img" aria-label="天真率比與正確率比">
+          <line x1="40" y1="20" x2="40" y2="250" class="sm" stroke-width="1.5"/>
+          <line x1="40" y1="250" x2="440" y2="250" class="sm" stroke-width="1.5"/>
+          <line x1="40" y1="70" x2="440" y2="70" class="sr dashed" stroke-width="1.5"/>
+          <text x="34" y="74" font-size="14" text-anchor="end" class="fm">1.0</text>
+          <text x="34" y="254" font-size="14" text-anchor="end" class="fm">0</text>
+          <rect id="bar-naive" x="90" width="120" class="fa"/>
+          <rect x="270" y="70" width="120" height="180" class="fy"/>
+          <text id="lab-naive" x="150" font-size="22" text-anchor="middle" class="fa mono"></text>
+          <text x="330" y="58" font-size="22" text-anchor="middle" class="fy mono">1.00</text>
+          <text x="150" y="278" font-size="16" text-anchor="middle">天真分析</text>
+          <text x="330" y="278" font-size="16" text-anchor="middle">正確分析</text>
+        </svg>
+        <p id="it-msg" style="font-size:19px"></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide" data-type="cards">
+    <p class="kicker">解法 · target trial emulation</p>
+    <h2>把時間零點對齊</h2>
+    <p><b>符合資格、分派處置、開始追蹤</b>，三件事要在同一個時間點。</p>
+    <div class="card-row">
+      <div class="card"><span class="tag">01</span><h3>時間變動暴露</h3><p>用藥前的人時算未用藥，用藥後才算用藥。</p></div>
+      <div class="card"><span class="tag">02</span><h3>地標分析</h3><p>在固定時間點（如第 6 個月）還活著的人才納入，以那時是否用藥分組。</p></div>
+      <div class="card"><span class="tag">03</span><h3>複製－設限－加權</h3><p>每個人複製到兩組，偏離策略時設限，再用權重校正。</p></div>
+    </div>
+  </section>
+
+  <section class="slide" data-type="quiz">
+    <p class="kicker">小測驗</p>
+    <div class="quiz" data-answer="b">
+      <p class="q">哪一種設計<b>沒有</b>不朽時間偏誤？</p>
+      <button data-opt="a" data-why="出院到第一次領藥之間的人時被算進用藥組。">以「出院後一年內曾經領過藥」分組，從出院那天開始追蹤。</button>
+      <button data-opt="b" data-why="分組和追蹤起點在同一天，沒有一段「必須活過才能進組」的時間。">以「出院當天是否開始用藥」分組，從出院那天開始追蹤。</button>
+      <button data-opt="c" data-why="要活得夠久才領得到 90 天的藥，不朽時間更長。">以「追蹤期間總共領藥超過 90 天」分組，從出院那天開始追蹤。</button>
+      <p class="quiz-why" aria-live="polite"></p>
+    </div>
+  </section>
+
+  <section class="slide" data-type="summary">
+    <p class="kicker">帶走三句話</p>
+    <h2>不朽時間偏誤：時間零點放錯會怎樣？</h2>
+    <ol class="takeaways">
+      <li>用「未來才發生的事」來分組，就會製造一段必須活過的不朽時間。</li>
+      <li>這個偏誤永遠讓處置看起來更好，即使藥完全沒效。</li>
+      <li>把符合資格、分派處置、開始追蹤對齊在同一個時間零點。</li>
+    </ol>
+    <p class="next"><a href="../../">回到講義目錄</a>　延伸閱讀：Suissa (2008) <i>Am J Epidemiol</i> 167:492–499；Hernán et al. (2016) <i>J Clin Epidemiol</i> 79:70–75。</p>
+  </section>
+
+</main>
+<script src="../../shared/deck.js"></script>
+<script>
+/* CP-03 lab: expected-value toy model, formulas and check values in notes/immortal-time-bias.md S05. */
+(function () {
+  var LAM = 0.02, T = 24, P = 0.5;
+  var slider = document.getElementById("delay");
+  var out = document.getElementById("delay-out");
+  var bar = document.getElementById("bar-naive");
+  var lab = document.getElementById("lab-naive");
+  var tab = document.getElementById("it-tab");
+  var msg = document.getElementById("it-msg");
+  function calc(d) {
+    var su = Math.exp(-LAM * d), rest = 1 - Math.exp(-LAM * (T - d)), all = 1 - Math.exp(-LAM * T);
+    var evU = P * su * rest, ptU = P * su * (d + rest / LAM);
+    var evN = (1 - P) * all + P * (1 - su), ptN = (1 - P) * all / LAM + P * ((1 - su) / LAM - d * su);
+    return { evU: evU, ptU: ptU, evN: evN, ptN: ptN, rr: (evU / ptU) / (evN / ptN) };
+  }
+  function f(x, n) { return x.toFixed(n); }
+  function render() {
+    var d = +slider.value, r = calc(d), h = 180 * r.rr;
+    out.textContent = d;
+    bar.setAttribute("y", 250 - h);
+    bar.setAttribute("height", h);
+    lab.setAttribute("y", 250 - h - 12);
+    lab.textContent = f(r.rr, 2);
+    // per 1,000 people
+    tab.innerHTML =
+      "<tr><td>用藥組</td><td>" + f(r.evU * 1000, 0) + "</td><td>" + f(r.ptU * 1000, 0) + "</td><td class='a'>" + f(r.evU / r.ptU * 1000, 1) + "</td></tr>" +
+      "<tr><td>未用藥組</td><td>" + f(r.evN * 1000, 0) + "</td><td>" + f(r.ptN * 1000, 0) + "</td><td>" + f(r.evN / r.ptN * 1000, 1) + "</td></tr>";
+    msg.innerHTML = d === 0
+      ? "d = 0：出院當天就用藥，沒有不朽時間，天真分析也是 1.00。"
+      : "藥完全沒效，天真分析卻說死亡率降低 <b class='a'>" + f((1 - r.rr) * 100, 0) + "%</b>。全部來自分組方式。";
+  }
+  slider.addEventListener("input", render);
+  render();
+})();
+</script>
+</body>
+</html>

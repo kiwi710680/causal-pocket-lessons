@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>干擾與 DAG：到底該調整誰？｜因果口袋講義</title>
+<link rel="stylesheet" href="../../shared/style.css">
+</head>
+<body data-code="CP-02" data-title="干擾與 DAG：到底該調整誰？">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" class="fi"/>
+    </marker>
+  </defs>
+</svg>
+<main class="deck">
+
+  <section class="slide" data-type="cover">
+    <p class="kicker">CP-02 · 入門</p>
+    <h1>干擾與 DAG：<br>到底該調整誰？</h1>
+    <p class="hook">「把所有變數都放進迴歸裡調整」——這句話錯在哪裡？</p>
+  </section>
+
+  <section class="slide" data-type="concept">
+    <p class="kicker">觀念</p>
+    <h2>DAG：把你對世界的假設畫出來</h2>
+    <div class="two-col wide-left">
+      <div>
+        <p><b>有向無環圖</b>（DAG, directed acyclic graph）用箭頭表示「誰直接影響誰」。</p>
+        <ul>
+          <li>節點是變數，箭頭是直接因果影響</li>
+          <li>不能繞一圈回到自己（無環）</li>
+          <li><mark>沒畫箭頭也是一種主張</mark>：你相信兩者沒有直接影響</li>
+        </ul>
+      </div>
+      <svg viewBox="0 0 420 260" role="img" aria-label="L 指向 A 與 Y，A 指向 Y">
+        <line x1="190" y1="72" x2="88" y2="178" class="edge si" marker-end="url(#arr)"/>
+        <line x1="230" y1="72" x2="332" y2="178" class="edge si" marker-end="url(#arr)"/>
+        <line x1="96" y1="200" x2="320" y2="200" class="edge si" marker-end="url(#arr)"/>
+        <circle cx="210" cy="50" r="30" class="fw sl" stroke-width="3"/>
+        <circle cx="70" cy="200" r="30" class="fw sa" stroke-width="3"/>
+        <circle cx="350" cy="200" r="30" class="fw sy" stroke-width="3"/>
+        <text x="210" y="50" class="node-label fl">L</text>
+        <text x="70" y="200" class="node-label fa">A</text>
+        <text x="350" y="200" class="node-label fy">Y</text>
+        <text x="210" y="248" font-size="16" text-anchor="middle" class="fm">A 處置　Y 結果　L 干擾因子</text>
+      </svg>
+    </div>
+    <div class="callout note"><b>補充</b>DAG 不是從資料算出來的，是從領域知識畫出來的。</div>
+  </section>
+
+  <section class="slide" data-type="figure">
+    <p class="kicker">圖解</p>
+    <h2>三種基本結構</h2>
+    <svg viewBox="0 0 1120 230" role="img" aria-label="鏈、叉、碰撞三種結構">
+      <g>
+        <line x1="62" y1="110" x2="160" y2="110" class="edge si" marker-end="url(#arr)"/>
+        <line x1="222" y1="110" x2="320" y2="110" class="edge si" marker-end="url(#arr)"/>
+        <circle cx="40" cy="110" r="24" class="fw sa" stroke-width="3"/><text x="40" y="110" class="node-label fa">A</text>
+        <circle cx="190" cy="110" r="24" class="fw si" stroke-width="3"/><text x="190" y="110" class="node-label">M</text>
+        <circle cx="340" cy="110" r="24" class="fw sy" stroke-width="3"/><text x="340" y="110" class="node-label fy">Y</text>
+        <text x="190" y="30" font-size="22" text-anchor="middle" font-weight="700">鏈 chain</text>
+        <text x="190" y="180" font-size="18" text-anchor="middle">M 是中介因子</text>
+        <text x="190" y="210" font-size="18" text-anchor="middle" class="fm">調整它：關上因果路徑</text>
+      </g>
+      <g transform="translate(370 0)">
+        <line x1="172" y1="86" x2="58" y2="132" class="edge si" marker-end="url(#arr)"/>
+        <line x1="208" y1="86" x2="322" y2="132" class="edge si" marker-end="url(#arr)"/>
+        <circle cx="40" cy="140" r="24" class="fw sa" stroke-width="3"/><text x="40" y="140" class="node-label fa">A</text>
+        <circle cx="190" cy="76" r="24" class="fw sl" stroke-width="3"/><text x="190" y="76" class="node-label fl">L</text>
+        <circle cx="340" cy="140" r="24" class="fw sy" stroke-width="3"/><text x="340" y="140" class="node-label fy">Y</text>
+        <text x="190" y="30" font-size="22" text-anchor="middle" font-weight="700">叉 fork</text>
+        <text x="190" y="180" font-size="18" text-anchor="middle">L 是干擾因子</text>
+        <text x="190" y="210" font-size="18" text-anchor="middle" class="fm">調整它：關上假路徑（好）</text>
+      </g>
+      <g transform="translate(740 0)">
+        <line x1="58" y1="90" x2="168" y2="132" class="edge si" marker-end="url(#arr)"/>
+        <line x1="322" y1="90" x2="212" y2="132" class="edge si" marker-end="url(#arr)"/>
+        <circle cx="40" cy="82" r="24" class="fw sa" stroke-width="3"/><text x="40" y="82" class="node-label fa">A</text>
+        <circle cx="190" cy="140" r="24" class="fw si" stroke-width="3"/><text x="190" y="140" class="node-label">C</text>
+        <circle cx="340" cy="82" r="24" class="fw sy" stroke-width="3"/><text x="340" y="82" class="node-label fy">Y</text>
+        <text x="190" y="30" font-size="22" text-anchor="middle" font-weight="700">碰撞 collider</text>
+        <text x="190" y="180" font-size="18" text-anchor="middle">C 是碰撞因子</text>
+        <text x="190" y="210" font-size="18" text-anchor="middle" class="fa">調整它：打開假路徑（壞）</text>
+      </g>
+    </svg>
+    <p style="margin-top:20px">碰撞因子最反直覺：這條路本來是<b>關著</b>的，你一調整，它反而<b>打開</b>。</p>
+  </section>
+
+  <section class="slide" data-type="concept">
+    <p class="kicker">觀念</p>
+    <h2>後門準則：只關後門，不碰正門</h2>
+    <div class="two-col">
+      <div>
+        <p><b>正門路徑</b>：從 A 出發、順著箭頭走到 Y（A → … → Y）。這是我們要估的效果。</p>
+        <p><b>後門路徑</b>：一開始箭頭就指向 A 的路徑（A ← …）。只要開著，就會混進假的關聯。</p>
+      </div>
+      <div class="formula" style="font-size:22px;font-family:var(--sans)">
+        <b>後門準則</b>：選一組變數 Z，<br>
+        (1) 擋住 A 到 Y 的所有後門路徑；<br>
+        (2) Z 裡面沒有 A 的後代。
+      </div>
+    </div>
+    <div class="callout warn"><b>常見錯誤</b>中介因子和碰撞因子都是 A 的後代，所以都不該調整。</div>
+  </section>
+
+  <section class="slide" data-type="lab">
+    <p class="kicker">互動 · 這是簡化的示意模型</p>
+    <h2>動手調整：statin 與心肌梗塞</h2>
+    <p class="guess">要估「statin 對心肌梗塞」的總效果，該調整哪些變數？先決定，再按。</p>
+    <div class="two-col grow" style="grid-template-columns:1.05fr 1fr">
+      <svg viewBox="0 0 560 370" id="lab-dag" role="img" aria-label="statin 與心肌梗塞的 DAG">
+        <line x1="258" y1="58" x2="108" y2="146" class="edge si" marker-end="url(#arr)"/>
+        <line x1="302" y1="58" x2="452" y2="146" class="edge si" marker-end="url(#arr)"/>
+        <line x1="122" y1="165" x2="242" y2="165" class="edge si" marker-end="url(#arr)"/>
+        <line x1="318" y1="165" x2="438" y2="165" class="edge si" marker-end="url(#arr)"/>
+        <path d="M110 190 Q 280 260 448 192" class="edge si" marker-end="url(#arr)"/>
+        <line x1="108" y1="186" x2="256" y2="298" class="edge si dashed" marker-end="url(#arr)"/>
+        <line x1="452" y1="186" x2="304" y2="298" class="edge si dashed" marker-end="url(#arr)"/>
+        <g data-node="L"><rect x="242" y="2" width="76" height="76" class="fn sl" stroke-width="3" visibility="hidden"/><circle cx="280" cy="40" r="30" class="fw sl" stroke-width="3"/><text x="280" y="40" class="node-label fl">L</text></g>
+        <g><circle cx="90" cy="165" r="30" class="fw sa" stroke-width="3"/><text x="90" y="165" class="node-label fa">A</text></g>
+        <g data-node="M"><rect x="242" y="127" width="76" height="76" class="fn si" stroke-width="3" visibility="hidden"/><circle cx="280" cy="165" r="30" class="fw si" stroke-width="3"/><text x="280" y="165" class="node-label">M</text></g>
+        <g><circle cx="470" cy="165" r="30" class="fw sy" stroke-width="3"/><text x="470" y="165" class="node-label fy">Y</text></g>
+        <g data-node="H"><rect x="242" y="282" width="76" height="76" class="fn si" stroke-width="3" visibility="hidden"/><circle cx="280" cy="320" r="30" class="fw si" stroke-width="3"/><text x="280" y="320" class="node-label">H</text></g>
+        <text x="330" y="36" font-size="16" class="fm">基線 LDL</text>
+        <text x="90" y="218" font-size="16" text-anchor="middle" class="fm">statin</text>
+        <text x="300" y="122" font-size="16" class="fm">用藥後 LDL</text>
+        <text x="470" y="218" font-size="16" text-anchor="middle" class="fm">心肌梗塞</text>
+        <text x="330" y="352" font-size="16" class="fm">住院紀錄</text>
+      </svg>
+      <div>
+        <div>
+          <button class="toggle" data-adj="L" aria-pressed="false">調整 L</button>
+          <button class="toggle" data-adj="M" aria-pressed="false">調整 M</button>
+          <button class="toggle" data-adj="H" aria-pressed="false">調整 H</button>
+        </div>
+        <table class="table" id="paths" style="font-size:17px">
+          <thead><tr><th>路徑</th><th>種類</th><th>狀態</th></tr></thead>
+          <tbody></tbody>
+        </table>
+        <p id="verdict" style="font-size:19px;margin-top:12px"></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide" data-type="concept">
+    <p class="kicker">觀念</p>
+    <h2>碰撞偏誤就在你身邊</h2>
+    <ul>
+      <li>只分析「住院病人」，就是在碰撞因子「住院」上做了限制。</li>
+      <li>例：兩種病都會讓人住院。在住院病人裡，沒有 X 病的人「一定是因為 Y 病才住院」，於是兩病看起來負相關——即使在一般人群中毫無關係（<b>Berkson 偏誤</b>）。</li>
+      <li>選樣本、排除條件、只分析「有追蹤到的人」，都可能是在調整碰撞因子。</li>
+    </ul>
+    <div class="callout warn"><b>常見錯誤</b>碰撞偏誤不是調整「不夠」，而是調整「太多」。</div>
+  </section>
+
+  <section class="slide" data-type="quiz">
+    <p class="kicker">小測驗</p>
+    <div class="quiz" data-answer="b">
+      <p class="q">研究「吸菸對死亡」的效果時，該不該調整「吸菸之後量的肺功能」？</p>
+      <button data-opt="a" data-why="和結果有關不代表該調整；它在 A 的下游。">該，肺功能和死亡有關，越多變數越準。</button>
+      <button data-opt="b" data-why="它是吸菸影響死亡的中介因子，調整會吃掉經過肺功能的那部分效果。">不該，它是中介因子，調整會吃掉部分效果。</button>
+      <button data-opt="c" data-why="干擾因子要在 A 之前、同時影響 A 和 Y；吸菸後的肺功能不會回頭影響是否吸菸。">該，因為它是干擾因子。</button>
+      <p class="quiz-why" aria-live="polite"></p>
+    </div>
+  </section>
+
+  <section class="slide" data-type="summary">
+    <p class="kicker">帶走三句話</p>
+    <h2>干擾與 DAG：到底該調整誰？</h2>
+    <ol class="takeaways">
+      <li>DAG 把你的因果假設攤在桌上，沒畫的箭頭也是主張。</li>
+      <li>調整干擾因子關上後門；調整中介因子吃掉效果；調整碰撞因子打開假路徑。</li>
+      <li>「該調整誰」由後門準則決定，不是由「和結果有沒有相關」決定。</li>
+    </ol>
+    <p class="next">下一份：<a href="../immortal-time-bias/">CP-03 不朽時間偏誤：時間零點放錯會怎樣？</a>　延伸閱讀：Greenland, Pearl &amp; Robins (1999) <i>Epidemiology</i> 10:37–48。</p>
+  </section>
+
+</main>
+<script src="../../shared/deck.js"></script>
+<script>
+/* CP-02 lab: toggle adjustment set, report each path's status (rules from notes/confounding-dag.md S05). */
+(function () {
+  var adj = { L: false, M: false, H: false };
+  var tbody = document.querySelector("#paths tbody");
+  var verdict = document.getElementById("verdict");
+  function row(path, kind, open, good) {
+    var cls = good ? "y" : "a";
+    return "<tr><td class='mono'>" + path + "</td><td>" + kind + "</td><td class='" + cls + "'>" + (open ? "開著" : "關上") + "</td></tr>";
+  }
+  function render() {
+    var p2open = !adj.M, p3open = !adj.L, p4open = adj.H;
+    tbody.innerHTML =
+      row("A → Y", "因果", true, true) +
+      row("A → M → Y", "因果", p2open, p2open) +
+      row("A ← L → Y", "後門", p3open, !p3open) +
+      row("A → H ← Y", "非因果（碰撞）", p4open, !p4open);
+    var msgs = [];
+    if (p3open) msgs.push("干擾還在：後門 A ← L → Y 沒關。");
+    if (!p2open) msgs.push("過度調整：A → M → Y 被關掉，只剩直接效果。");
+    if (p4open) msgs.push("碰撞偏誤：調整 H 打開了 A → H ← Y。");
+    verdict.className = msgs.length ? "a" : "y";
+    verdict.textContent = msgs.length ? msgs.join(" ") : "正確：所有後門都關上，因果路徑都還開著。答案是只調整 L。";
+    Object.keys(adj).forEach(function (k) {
+      document.querySelector('[data-node="' + k + '"] rect').setAttribute("visibility", adj[k] ? "visible" : "hidden");
+    });
+  }
+  document.querySelectorAll("[data-adj]").forEach(function (b) {
+    b.addEventListener("click", function () {
+      var k = b.dataset.adj;
+      adj[k] = !adj[k];
+      b.setAttribute("aria-pressed", String(adj[k]));
+      render();
+    });
+  });
+  render();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>潛在結果：因果到底是什麼？｜因果口袋講義</title>
+<link rel="stylesheet" href="../../shared/style.css">
+</head>
+<body data-code="CP-01" data-title="潛在結果：因果到底是什麼？">
+<main class="deck">
+
+  <section class="slide" data-type="cover">
+    <p class="kicker">CP-01 · 入門</p>
+    <h1>潛在結果：<br>因果到底是什麼？</h1>
+    <p class="hook">吃了藥，病好了。這樣就能說「是藥治好的」嗎？</p>
+  </section>
+
+  <section class="slide" data-type="concept">
+    <p class="kicker">觀念</p>
+    <h2>每個人都有兩個平行世界</h2>
+    <div class="two-col wide-left">
+      <div>
+        <p>想像同一位病人站在岔路口：</p>
+        <ul>
+          <li>吃藥的世界，結果記作 <span class="mono a">Y(1)</span></li>
+          <li>不吃藥的世界，結果記作 <span class="mono y">Y(0)</span></li>
+        </ul>
+        <p>這兩個「可能的結果」叫做<mark>潛在結果</mark>（potential outcomes）。藥對這個人的效果，就是兩個世界的差：<span class="mono">Y(1) − Y(0)</span>。</p>
+      </div>
+      <svg viewBox="0 0 420 300" role="img" aria-label="一個人分岔成吃藥與不吃藥兩個世界">
+        <circle cx="60" cy="150" r="26" class="fi"/>
+        <path d="M86 150 C 180 150, 200 70, 290 70" class="edge sa"/>
+        <path d="M86 150 C 180 150, 200 230, 290 230" class="edge sy"/>
+        <rect x="290" y="40" width="120" height="60" class="fw sa" stroke-width="2"/>
+        <rect x="290" y="200" width="120" height="60" class="fw sy" stroke-width="2"/>
+        <text x="350" y="70" class="node-label fa">Y(1)</text>
+        <text x="350" y="230" class="node-label fy">Y(0)</text>
+        <text x="190" y="88" font-size="17" class="fm">吃藥</text>
+        <text x="180" y="226" font-size="17" class="fm">不吃藥</text>
+        <text x="60" y="198" font-size="17" text-anchor="middle" class="fm">同一個人</text>
+      </svg>
+    </div>
+    <div class="callout note"><b>補充</b>Y 括號裡放的是「處置設成多少」，不是「他實際拿到什麼」。</div>
+  </section>
+
+  <section class="slide" data-type="lab">
+    <p class="kicker">互動 · 因果推論的根本問題</p>
+    <h2>每個人永遠只看得到一半</h2>
+    <p class="guess">表格裡的問號，你覺得藥到底有沒有用？想好再按。</p>
+    <div class="two-col wide-left grow">
+      <table class="table" id="po-table">
+        <thead><tr><th>病人</th><th>病情</th><th>實際處置 A</th><th>Y(1)</th><th>Y(0)</th><th>個人效果</th></tr></thead>
+        <tbody></tbody>
+      </table>
+      <div>
+        <button class="toggle" id="god" aria-pressed="false">打開上帝視角</button>
+        <p class="small">Y = 1 代表康復。8 位都是虛構病人。</p>
+        <p id="god-msg">現實中每個人只走了一條路，所以另一格永遠是問號。這叫<b>因果推論的根本問題</b>。</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide" data-type="formula">
+    <p class="kicker">公式 · 平均處置效果</p>
+    <h2>個人看不到，平均看得到</h2>
+    <div class="formula">ATE = E[<span class="a">Y(1)</span>] − E[<span class="y">Y(0)</span>]</div>
+    <p class="plain">「全部人都吃藥」和「全部人都不吃」兩個世界，平均康復率差多少。</p>
+    <table class="table" style="max-width:760px">
+      <thead><tr><th>上帝視角</th><th>計算</th><th>結果</th></tr></thead>
+      <tbody>
+        <tr><td>E[Y(1)]</td><td>6 / 8</td><td class="mono">0.750</td></tr>
+        <tr><td>E[Y(0)]</td><td>3 / 8</td><td class="mono">0.375</td></tr>
+        <tr><td><b>ATE</b></td><td>0.750 − 0.375</td><td class="mono y">+0.375</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="slide" data-type="formula">
+    <p class="kicker">公式 · 天真比較</p>
+    <h2>直接比兩組，會騙人</h2>
+    <div class="formula">E[Y | A=1] − E[Y | A=0]</div>
+    <p class="plain">直接拿「有吃藥的人」和「沒吃藥的人」比康復率。</p>
+    <div class="two-col">
+      <table class="table">
+        <tbody>
+          <tr><td>有吃藥（病人 1–4）</td><td class="mono">2 / 4 = 0.50</td></tr>
+          <tr><td>沒吃藥（病人 5–8）</td><td class="mono">3 / 4 = 0.75</td></tr>
+          <tr><td><b>天真比較</b></td><td class="mono a">−0.25</td></tr>
+        </tbody>
+      </table>
+      <p>藥明明有幫助（<span class="y">+0.375</span>），天真比較卻說藥有害。原因：吃藥的人本來就比較重——兩組在「不吃藥的世界」裡就不一樣（0/4 對 3/4）。</p>
+    </div>
+  </section>
+
+  <section class="slide" data-type="cards">
+    <p class="kicker">要點</p>
+    <h2>讓觀察資料說因果的三個條件</h2>
+    <div class="card-row">
+      <div class="card"><span class="tag">01 · CONSISTENCY</span><h3>一致性</h3><p>實際拿到 A=a 的人，看到的結果就是 Y(a)。「吃藥」的定義要清楚。</p></div>
+      <div class="card l"><span class="tag">02 · EXCHANGEABILITY</span><h3>可交換性</h3><p>兩組人在平行世界裡可以互換。隨機分派自動做到，觀察研究要靠調整干擾因子。</p></div>
+      <div class="card"><span class="tag">03 · POSITIVITY</span><h3>正值性</h3><p>每一種人都有機會吃藥，也有機會不吃。</p></div>
+    </div>
+  </section>
+
+  <section class="slide" data-type="quiz">
+    <p class="kicker">小測驗</p>
+    <div class="quiz" data-answer="b">
+      <p class="q">隨機分派的試驗，為什麼天真比較就等於 ATE？</p>
+      <button data-opt="a" data-why="樣本大只讓估計穩定，不會修正兩組本來就不同的偏誤。">因為樣本數夠大，誤差會消失。</button>
+      <button data-opt="b" data-why="擲銅板讓兩組在平行世界裡平均一樣，這就是可交換性。">因為擲銅板決定誰吃藥，兩組在平行世界裡平均一樣。</button>
+      <button data-opt="c" data-why="每個人還是只看得到一個潛在結果，根本問題沒有消失。">因為隨機分派讓每個人都看得到 Y(1) 和 Y(0)。</button>
+      <p class="quiz-why" aria-live="polite"></p>
+    </div>
+  </section>
+
+  <section class="slide" data-type="summary">
+    <p class="kicker">帶走三句話</p>
+    <h2>潛在結果：因果到底是什麼？</h2>
+    <ol class="takeaways">
+      <li>因果效果是同一群人在兩個平行世界的結果差：Y(1) − Y(0)。</li>
+      <li>每個人只看得到一個世界，所以我們估的是平均（ATE）。</li>
+      <li>天真比較等於 ATE 的前提是可交換性：隨機分派給你，觀察研究要自己掙。</li>
+    </ol>
+    <p class="next">下一份：<a href="../confounding-dag/">CP-02 干擾與 DAG：到底該調整誰？</a>　延伸閱讀：Hernán &amp; Robins,《Causal Inference: What If》第 1–3 章。</p>
+  </section>
+
+</main>
+<script src="../../shared/deck.js"></script>
+<script>
+/* CP-01 lab: potential-outcome table with a "god view" toggle (numbers from notes/potential-outcomes.md S03). */
+(function () {
+  var rows = [
+    [1, "重", 1, 1, 0], [2, "重", 1, 0, 0], [3, "重", 1, 1, 0], [4, "重", 1, 0, 0],
+    [5, "輕", 0, 1, 1], [6, "輕", 0, 1, 1], [7, "輕", 0, 1, 0], [8, "輕", 0, 1, 1]
+  ];
+  var tbody = document.querySelector("#po-table tbody");
+  var btn = document.getElementById("god");
+  var msg = document.getElementById("god-msg");
+  var base = msg.innerHTML;
+  function render(god) {
+    tbody.innerHTML = rows.map(function (r) {
+      var a = r[2], y1 = r[3], y0 = r[4];
+      var c1 = a === 1 ? "<td class='a'>" + y1 + "</td>" : (god ? "<td class='hidden-cf'>" + y1 + "</td>" : "<td>?</td>");
+      var c0 = a === 0 ? "<td class='y'>" + y0 + "</td>" : (god ? "<td class='hidden-cf'>" + y0 + "</td>" : "<td>?</td>");
+      var eff = god ? (y1 - y0 > 0 ? "+1" : "0") : "?";
+      return "<tr><td>" + r[0] + "</td><td>" + r[1] + "</td><td>" + (a ? "吃藥" : "沒吃") + "</td>" + c1 + c0 + "<td>" + eff + "</td></tr>";
+    }).join("");
+  }
+  btn.addEventListener("click", function () {
+    var on = btn.getAttribute("aria-pressed") !== "true";
+    btn.setAttribute("aria-pressed", String(on));
+    btn.textContent = on ? "回到現實" : "打開上帝視角";
+    msg.innerHTML = on
+      ? "灰字是現實中看不到的那個世界。3 個人因為吃藥而康復，<b>沒有人被藥害到</b>。可是現實中的你，只拿得到黑字。"
+      : base;
+    render(on);
+  });
+  render(false);
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+[
+  {
+    "slug": "potential-outcomes",
+    "code": "CP-01",
+    "title": "潛在結果：因果到底是什麼？",
+    "summary": "用兩個平行世界理解因果，以及為什麼天真比較會騙人",
+    "minutes": 10,
+    "level": "入門"
+  },
+  {
+    "slug": "confounding-dag",
+    "code": "CP-02",
+    "title": "干擾與 DAG：到底該調整誰？",
+    "summary": "用後門準則分辨干擾、中介、碰撞，決定該調整哪些變數",
+    "minutes": 12,
+    "level": "入門"
+  },
+  {
+    "slug": "immortal-time-bias",
+    "code": "CP-03",
+    "title": "不朽時間偏誤：時間零點放錯會怎樣？",
+    "summary": "看沒效的藥如何靠分組方式變成有效，以及怎麼對齊時間零點",
+    "minutes": 10,
+    "level": "實務"
+  }
+]
